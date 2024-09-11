@@ -43,7 +43,7 @@ Make sure that the row order in each data file is consistent across all files, s
 
 ## Kernel PCA Association Testing
 
-### Running Kernel PCA Analysis:**
+### Running Kernel PCA Analysis:
 
 1. Source the `kernelPCA_method.R` script in R:
 
