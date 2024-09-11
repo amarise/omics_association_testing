@@ -6,9 +6,9 @@ This repository provides code for performing kernel PCA and association testing 
 
 You will need the following R packages:
 
-    GENESIS: For fitting null models and handling related individuals.
-    SKAT: For kernel-based association testing.
-    CompQuadForm: For Davies' method and saddlepoint approximation.
+    - GENESIS: For fitting null models and handling related individuals.
+    - SKAT: For kernel-based association testing.
+    - CompQuadForm: For Davies' method and saddlepoint approximation.
 
 Install these packages using the following R command:
 
@@ -18,29 +18,29 @@ install.packages(c("GENESIS", "SKAT", "CompQuadForm"))
 
 ## File Structure
 
-- kernel_analysis.R: The main script to run kernel PCA analysis and association testing.
-- kernel_helpers.R: Contains helper functions to calculate test statistics, p-values, and kernel matrix operations.
-- data/: Directory to store input genotype, methylation, and phenotype data files (not provided).
+- `kernel_analysis.R`: The main script to run kernel PCA analysis and association testing.
+- `kernel_helpers.R`: Contains helper functions to calculate test statistics, p-values, and kernel matrix operations.
+- `data/`: Directory to store input genotype, methylation, and phenotype data files (user provided).
 
 ## How to Use
 
-1. Clone the repository:
+1. **Clone the repository:**
 
-```
+``` bash
 git clone https://github.dev/amarise/omics_association_testing/
 ```
 
-2. Prepare your data:
+2. **Prepare your data:**
 
     - Input files should include:
-        - Genotype matrix (G)
-        - Methylation matrix (M)
-        - Outcome variable (y)
-        - Covariates (X)
-        - Genetic relatedness matrix (grm)
+        - Genotype matrix (`G`)
+        - Methylation matrix (`M`)
+        - Outcome variable (`y`)
+        - Covariates (`X`)
+        - Genetic relatedness matrix (`grm`)
     - Ensure that the row order in each data file is conserved, so they correspond to the same subjects across all files.
 
-3. Run the analysis:
+3. **Run the analysis:**
 
     - Source the kernel_analysis.R script in R:
 
@@ -53,13 +53,13 @@ source("kernel_analysis.R")
 ``` r
 result <- kernelPCA(w = seq(0, 1, by = 0.1), y = y_data, X = covariates, G = genotype_data, M = methylation_data, grm = relatedness_matrix)
 ```
-4. Review Results:
+4. **Review Results:**
     
-    - The results of the analysis will include p-values, test statistics, and the optimal weight ($\omega$) for combining kernels.
+    - The results of the analysis will include p-values, test statistics, and the optimal weight (`w`) for combining kernels.
 
 ## Example Usage
 
-Here’s an example of how to run the kernelPCA function:
+Here’s an example of how to run the `kernelPCA` function:
 
 ``` r
 # Example of running the analysis
@@ -73,9 +73,9 @@ print(result$w)             # Optimal weight for kernel combination
 
 ## Custom Functions
 
-    - `r kernelPCA()`: This function performs kernel PCA and association testing for two omics data types (genotypes and methylation).
-    - `r SKAT_2Kernel_Optimal_Get_Q()`: Computes the test statistics for a range of kernel weights.
-    - `r SKAT_2Kernel_Ortho_Optimal_Get_Pvalue()`: Calculates p-values for kernel association tests.
+    - `kernelPCA()`: This function performs kernel PCA and association testing for two omics data types (genotypes and methylation).
+    - `SKAT_2Kernel_Optimal_Get_Q()`: Computes the test statistics for a range of kernel weights.
+    - `SKAT_2Kernel_Ortho_Optimal_Get_Pvalue()`: Calculates p-values for kernel association tests.
 
 ## Acknowledgments
 
