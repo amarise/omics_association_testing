@@ -54,20 +54,17 @@ Make sure that the row order in each data file is consistent across all files, s
 2. Modify the script to point to your data files, then run the kernel PCA analysis:
 
     ``` r
-    result <- kernelPCA(w = seq(0, 1, by = 0.1), y = y_data, X = covariates, G = genotype_data, M = methylation_data, grm = relatedness_matrix)
+    result <- kernelPCA(w = seq(0, 1, by = 0.25), y = y_data, X = covariates, omics1 = omics1_data, omics2 = omics2_data, grm = relatedness_matrix)
     ```
 
-4. **Review Results:**
+3. Review Results:
     
     - The results of the analysis will include p-values, test statistics, and the optimal weight (`w`) for combining kernels.
 
-## Example Usage
-
-Here’s an example of how to run the `kernelPCA` function:
+### Example Usage:
 
 ``` r
-# Example of running the analysis
-result <- kernelPCA(w = seq(0, 1, by = 0.1), y = y_data, X = covariates, G = genotype_data, M = methylation_data, grm = relatedness_matrix)
+result <- kernelPCA(w = seq(0, 1, by = 0.25), y = y_data, X = covariates, omics1 = genotype_data, omics2 = methylation_data, grm = relatedness_matrix)
 
 # View the results
 print(result$grid_results)  # View the grid of test statistics and p-values
@@ -75,31 +72,38 @@ print(result$p_val)         # Overall p-value for the test
 print(result$w)             # Optimal weight for kernel combination
 ```
 
-## Custom Functions
-
-- `kernelPCA()`: This function performs kernel PCA and association testing for two omics data types (genotypes and methylation).
-- `SKAT_2Kernel_Optimal_Get_Q()`: Computes the test statistics for a range of kernel weights.
-- `SKAT_2Kernel_Ortho_Optimal_Get_Pvalue()`: Calculates p-values for kernel association tests.
-
 ## Perturbation Method for Association Testing
 
-The perturbation method provides an alternative approach for association testing. It uses perturbations to estimate p-values and test statistics.
+### Running Perturbation Method:
 
-### How to Use:
-
-1. Include the `perturbation_method.R` file in your project.
-2. Load and run the perturbation method using your data:
+1. Include the kernelPCA_method.R file in your project.
+2. Source the script and run the perturbation method using your data:
 
 ```r
-# Example of running the perturbation method
-source("perturbation_method.R")
-result <- perturbation(w = seq(0, 1, by = 0.1), y = y_data, X = covariates, G = genotype_data, M = methylation_data, grm = relatedness_matrix)
+source("kernelPCA_method.R")
+result <- perturbation(w = seq(0, 1, by = 0.25), y = y_data, X = covariates, omics1 = omics1_data, omics2 = omics2_data, grm = relatedness_matrix)
+```
+
+3. Review Results:
+    - This method will provide test statistics, p-values, and an optimal weight (`w`) for combining kernels based on perturbations.
+
+### Example Usage:
+
+```r
+result <- perturbation(w = seq(0, 1, by = 0.1), y = y_data, X = covariates, omics1 = genotype_data, omics2 = methylation_data, grm = relatedness_matrix)
 
 # View the results
 print(result$grid_results)  # View the test statistics and p-values for different weights
 print(result$p_val)         # Overall p-value for the test
 print(result$w)             # Optimal weight for kernel combination
 ```
+
+## Custom Functions
+
+- `kernelPCA()`: Performs kernel PCA and association testing for two omics data types.
+- `perturbation()`: Implements the perturbation-based association testing method.
+- `SKAT_2Kernel_Optimal_Get_Q()`: Computes test statistics for a range of kernel weights.
+- `SKAT_2Kernel_Ortho_Optimal_Get_Pvalue()`: Calculates p-values for kernel association tests.
 
 ## Acknowledgments
 
