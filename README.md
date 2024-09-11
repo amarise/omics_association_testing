@@ -1,14 +1,14 @@
 # Kernel PCA for Multi-Omics Data Integration
 
-This repository provides code for performing kernel PCA and association testing on multi-omics data (e.g., genotypes and methylation) using kernel machine regression.
+This repository provides R code for performing kernel PCA association testing on two multi-omics data types (e.g., genotypes and methylation) using kernel machine regression.
 
 ## Prerequisites
 
 You will need the following R packages:
 
-    - GENESIS: For fitting null models and handling related individuals.
-    - SKAT: For kernel-based association testing.
-    - CompQuadForm: For Davies' method and saddlepoint approximation.
+- **GENESIS**: For fitting null models and handling related individuals.
+- **SKAT**: For kernel-based association testing.
+- **CompQuadForm**: For Davies' method and saddlepoint approximation.
 
 Install these packages using the following R command:
 
@@ -44,15 +44,16 @@ git clone https://github.dev/amarise/omics_association_testing/
 
     - Source the kernel_analysis.R script in R:
 
-``` r
-source("kernel_analysis.R")
-```
+    ``` r
+    source("kernel_analysis.R")
+    ```
 
     - Modify the script to point to your data files, then run the kernel PCA analysis:
 
-``` r
-result <- kernelPCA(w = seq(0, 1, by = 0.1), y = y_data, X = covariates, G = genotype_data, M = methylation_data, grm = relatedness_matrix)
-```
+    ``` r
+    result <- kernelPCA(w = seq(0, 1, by = 0.1), y = y_data, X = covariates, G = genotype_data, M = methylation_data, grm = relatedness_matrix)
+    ```
+
 4. **Review Results:**
     
     - The results of the analysis will include p-values, test statistics, and the optimal weight (`w`) for combining kernels.
@@ -73,9 +74,9 @@ print(result$w)             # Optimal weight for kernel combination
 
 ## Custom Functions
 
-    - `kernelPCA()`: This function performs kernel PCA and association testing for two omics data types (genotypes and methylation).
-    - `SKAT_2Kernel_Optimal_Get_Q()`: Computes the test statistics for a range of kernel weights.
-    - `SKAT_2Kernel_Ortho_Optimal_Get_Pvalue()`: Calculates p-values for kernel association tests.
+- `kernelPCA()`: This function performs kernel PCA and association testing for two omics data types (genotypes and methylation).
+- `SKAT_2Kernel_Optimal_Get_Q()`: Computes the test statistics for a range of kernel weights.
+- `SKAT_2Kernel_Ortho_Optimal_Get_Pvalue()`: Calculates p-values for kernel association tests.
 
 ## Acknowledgments
 
