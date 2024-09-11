@@ -1,16 +1,16 @@
-# Kernel PCA for Multi-Omics Data Integration
+# Association Testing for Two Multi-Omics Data Types
 
-This repository provides R code for performing kernel PCA association testing on two multi-omics data types (e.g., genotypes and methylation) using kernel machine regression.
+This repository provides R code for performing association testing on two multi-omics data types (e.g., genotypes and methylation) using two methods: kernel PCA and perturbation testing. These methods allow for the assessment of associations between multi-omics data and a trait of interest.
 
 ## Prerequisites
 
-You will need the following R packages:
+The following R packages are required:
 
-- **GENESIS**: For fitting null models and handling related individuals.
-- **SKAT**: For kernel-based association testing.
-- **CompQuadForm**: For Davies' method and saddlepoint approximation.
+    GENESIS: For fitting null models and handling related individuals.
+    SKAT: For kernel-based association testing.
+    CompQuadForm: For Davies' method and saddlepoint approximation.
 
-Install these packages using the following R command:
+Install the required packages using the command below:
 
 ``` r
 install.packages(c("GENESIS", "SKAT", "CompQuadForm"))
@@ -18,9 +18,10 @@ install.packages(c("GENESIS", "SKAT", "CompQuadForm"))
 
 ## File Structure
 
-- `kernel_analysis.R`: The main script to run kernel PCA analysis and association testing.
+- `kernelPCA_method.R`:  Script for running the kernel PCA association testing method.
+- `perturbation_method.R`: Script for running the perturbation method for association testing.
 - `kernel_helpers.R`: Contains helper functions to calculate test statistics, p-values, and kernel matrix operations.
-- `data/`: Directory to store input genotype, methylation, and phenotype data files (user provided).
+- `data/`: Directory to store input omics data type 1 (e.g. genotype), omics data type 2 (e.g. methylation), and phenotype data files (user provided).
 
 ## How to Use
 
@@ -32,23 +33,25 @@ git clone https://github.dev/amarise/omics_association_testing/
 
 2. **Prepare your data:**
 
-    - Input files should include:
-        - Genotype matrix (`G`)
-        - Methylation matrix (`M`)
-        - Outcome variable (`y`)
-        - Covariates (`X`)
-        - Genetic relatedness matrix (`grm`)
-    - Ensure that the row order in each data file is conserved, so they correspond to the same subjects across all files.
+Ensure that the following data files are prepared and correspond to the same subjects:
+- Omics data type 1 matrix (`omics1`)
+- Omics data type 2 matrix (`omics2`)
+- Outcome variable (`y`)
+- Covariates (`X`)
+- Genetic relatedness matrix (`grm`)
+Make sure that the row order in each data file is consistent across all files, so that they correspond to the same subjects.
 
-3. **Run the analysis:**
+## Kernel PCA Association Testing
 
-    - Source the kernel_analysis.R script in R:
+### Running Kernel PCA Analysis:**
+
+1. Source the `kernelPCA_method.R` script in R:
 
     ``` r
-    source("kernel_analysis.R")
+    source("kernelPCA_method.R")
     ```
 
-    - Modify the script to point to your data files, then run the kernel PCA analysis:
+2. Modify the script to point to your data files, then run the kernel PCA analysis:
 
     ``` r
     result <- kernelPCA(w = seq(0, 1, by = 0.1), y = y_data, X = covariates, G = genotype_data, M = methylation_data, grm = relatedness_matrix)
@@ -77,6 +80,26 @@ print(result$w)             # Optimal weight for kernel combination
 - `kernelPCA()`: This function performs kernel PCA and association testing for two omics data types (genotypes and methylation).
 - `SKAT_2Kernel_Optimal_Get_Q()`: Computes the test statistics for a range of kernel weights.
 - `SKAT_2Kernel_Ortho_Optimal_Get_Pvalue()`: Calculates p-values for kernel association tests.
+
+## Perturbation Method for Association Testing
+
+The perturbation method provides an alternative approach for association testing. It uses perturbations to estimate p-values and test statistics.
+
+### How to Use:
+
+1. Include the `perturbation_method.R` file in your project.
+2. Load and run the perturbation method using your data:
+
+```r
+# Example of running the perturbation method
+source("perturbation_method.R")
+result <- perturbation(w = seq(0, 1, by = 0.1), y = y_data, X = covariates, G = genotype_data, M = methylation_data, grm = relatedness_matrix)
+
+# View the results
+print(result$grid_results)  # View the test statistics and p-values for different weights
+print(result$p_val)         # Overall p-value for the test
+print(result$w)             # Optimal weight for kernel combination
+```
 
 ## Acknowledgments
 
