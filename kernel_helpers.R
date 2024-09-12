@@ -159,3 +159,8 @@ SKAT_2Kernel_Ortho_Optimal_Each_Q <- function(Q.all, r.all, c1.all) {
   out <- list(pmin = pmin, pval = pval, pmin.q = pmin.q, param.m = param.m)
   return(out)
 }
+
+# Helper function to compute standard deviation for quadratic forms
+sd_quad <- function(M) {
+  sqrt(2 * sum(M * M))
+}
