@@ -4,6 +4,19 @@ library(SKAT)     # For kernel-based association testing
 library(CompQuadForm)  # For computing Davies' method and saddlepoint approximation
 
 # Main function for performing kernel PCA association testing for two omics data types
+# Inputs:
+#   w: Vector of weights used to balance kernels for omics1 and omics2
+#   y: Outcome variable (phenotype or trait)
+#   X: Covariate matrix (Samples in rows, covariates in columns)
+#   omics1: First omics data matrix (Samples in rows, features in columns)
+#   omics2: Second omics data matrix (Samples in rows, features in columns)
+#   grm: Genetic relatedness matrix (covariance structure for related individuals)
+# Outputs:
+#   Returns a list with:
+#     - grid_results: Data frame containing test statistics and p-values for each weight in w
+#     - p_val: Overall p-value for the test
+#     - test.stat: Test statistic corresponding to the optimal weight
+#     - w: Optimal weight for kernel combination
 kernelPCA <- function(w, y, X, omics1, omics2, grm) {
   
   # Create a data frame to store results for different weights (w)
