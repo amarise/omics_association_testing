@@ -4,6 +4,20 @@ library(SKAT)     # For kernel-based association testing
 library(CompQuadForm)  # For computing Davies' method and saddlepoint approximation
 
 # Function for performing perturbation-based association testing for two omics data types
+# Inputs:
+#   w: Vector of weights used to balance kernels for omics1 and omics2
+#   y: Outcome variable (phenotype or trait)
+#   X: Covariate matrix
+#   omics1: First omics data matrix (e.g., gene expression, genetic variants)
+#   omics2: Second omics data matrix (e.g., methylation, protein levels)
+#   grm: Genetic relatedness matrix (covariance structure for related individuals)
+#   num_reps: Number of perturbation replications (default = 10000)
+# Outputs:
+#   Returns a list with:
+#     - grid_results: Data frame containing test statistics and p-values for each weight in w
+#     - p_val: Final p-value after perturbation
+#     - test.stat: Test statistic corresponding to the optimal weight
+#     - w: Optimal weight for kernel combination
 perturbation <- function(w, y, X, omics1, omics2, grm, num_reps = 10000) {
   
   # Create a data frame to store results for different weights (w)
@@ -13,7 +27,7 @@ perturbation <- function(w, y, X, omics1, omics2, grm, num_reps = 10000) {
   
   # Fit the null model (without including the omics data)
   nullmod <- fitNullModel(data.frame(y, X, row.names = rownames(grm)),
-                          outcome = 'y', covars = c('X'), cov.mat = grm,  # Covariate matrix for relatedness
+                          outcome = 'y', covars = c('X'), cov.mat = grm,  # genetic relatedness matrix
                           family = "gaussian", start = NULL, drop.zeros = F,
                           return.small = F, verbose = F)
   
@@ -21,7 +35,7 @@ perturbation <- function(w, y, X, omics1, omics2, grm, num_reps = 10000) {
   P0 <- -tcrossprod(nullmod$CXCXI,nullmod$CX); diag(P0) <- 1 + diag(P0)
   P0 <- nullmod$cholSigmaInv %*% P0
 
-  # Calculate kernel matrices for omics1 and omics2
+  # Calculate linear kernel matrices for omics1 and omics2
   K1 <- tcrossprod(omics1); K2 <- tcrossprod(omics2)
   
   # Compute standard deviation for quadratic forms of omics1 and omics2
