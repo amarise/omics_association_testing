@@ -96,7 +96,7 @@ Make sure that the row order in each data file is consistent across all files, s
 ### Example Usage:
 
     ```r
-    result <- perturbation(w = seq(0, 1, by = 0.1), y = y_data, X = covariates, omics1 = genotype_data, omics2 = methylation_data, grm = relatedness_matrix)
+    result <- perturbation(w = seq(0, 1, by = 0.25), y = y_data, X = covariates, omics1 = genotype_data, omics2 = methylation_data, grm = relatedness_matrix)
 
     # View the results
     print(result$grid_results)  # View the test statistics and p-values for different weights
