@@ -98,8 +98,3 @@ kernelPCA <- function(w, y, X, omics1, omics2, grm) {
        test.stat = grid_results$test.stat[index],
        w = grid_results$w[index])
 }
-
-# Helper function to compute standard deviation for quadratic forms
-sd_quad <- function(M) {
-  sqrt(2 * sum(M * M))
-}
