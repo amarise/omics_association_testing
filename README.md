@@ -6,9 +6,9 @@ This repository provides R code for performing association testing on two multi-
 
 The following R packages are required:
 
-    GENESIS: For fitting null models and handling related individuals.
-    SKAT: For kernel-based association testing.
-    CompQuadForm: For Davies' method and saddlepoint approximation.
+- `GENESIS`: For fitting null models and handling related individuals.
+- `SKAT`: For kernel-based association testing.
+- `CompQuadForm`: For Davies' method and saddlepoint approximation.
 
 Install the required packages using the command below:
 
