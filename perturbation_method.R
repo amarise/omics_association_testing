@@ -7,9 +7,9 @@ library(CompQuadForm)  # For computing Davies' method and saddlepoint approximat
 # Inputs:
 #   w: Vector of weights used to balance kernels for omics1 and omics2
 #   y: Outcome variable (phenotype or trait)
-#   X: Covariate matrix
-#   omics1: First omics data matrix (e.g., gene expression, genetic variants)
-#   omics2: Second omics data matrix (e.g., methylation, protein levels)
+#   X: Covariate matrix (Samples in rows, covariates in columns)
+#   omics1: First omics data matrix (e.g., gene expression, genetic variants; samples in rows, covariates in columns)
+#   omics2: Second omics data matrix (e.g., methylation, protein levels; samples in rows, covariates in columns)
 #   grm: Genetic relatedness matrix (covariance structure for related individuals)
 #   num_reps: Number of perturbation replications (default = 10000)
 # Outputs:

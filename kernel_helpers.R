@@ -1,4 +1,17 @@
 # Helper function to compute test statistics for a range of kernel weights
+# Inputs:
+#   Z1: First kernel matrix 
+#   Z2: Second kernel matrix
+#   res: Residuals from null model fitting
+#   r.all: A vector of weights used to balance kernels for Z1 and Z2
+#   n.Resampling: Number of resamplings (default = 0)
+#   res.out: Optional resampled residuals (default = NULL)
+#   res.moments: Optional moments for method of moments calculation (default = NULL)
+# Outputs:
+#   Returns a list with:
+#     - Q.r: Test statistics for each weight
+#     - Q.r.res: Resampled test statistics (if resampling is used)
+#     - Q.sim: Simulated test statistics (if moments are provided)
 SKAT_2Kernel_Optimal_Get_Q <- function(Z1, Z2, res, r.all, n.Resampling = 0, res.out = NULL, res.moments = NULL) {
   n.r <- length(r.all)
   p.m <- dim(Z1)[2]
@@ -53,6 +66,14 @@ SKAT_2Kernel_Optimal_Get_Q <- function(Z1, Z2, res, r.all, n.Resampling = 0, res
 }
 
 # Helper function to calculate p-values from kernel test statistics
+# Inputs:
+#   Q.all: A matrix of test statistics for different kernel weights
+#   Z1.1, Z2.1: Projected Z matrices for omics1 and omics2
+#   r.all: Vector of weights for kernels
+# Outputs:
+#   Returns a list with:
+#     - p.value: Final p-values for the test
+#     - p.val.each: P-values for each weight
 SKAT_2Kernel_Ortho_Optimal_Get_Pvalue <- function(Q.all, Z1.1, Z2.1, r.all) {
   n.r <- length(r.all)
   n.q <- dim(Q.all)[1]
@@ -91,6 +112,12 @@ SKAT_2Kernel_Ortho_Optimal_Get_Pvalue <- function(Q.all, Z1.1, Z2.1, r.all) {
 }
 
 # Helper function to get parameters for method of moments for each weight (r)
+# Inputs:
+#   Z1.1: Projected Z1 matrix
+#   Z2.1: Projected Z2 matrix
+#   r.all: Vector of weights for kernels
+# Outputs:
+#   Returns a matrix of cumulants needed for method of moments for each weight
 SKAT_2Kernel_Ortho_Optimal_Get_Params_each_r <- function(Z1.1, Z2.1, r.all) {
   c1 <- matrix(rep(0, 4 * length(r.all)), ncol = length(r.all))
 
@@ -115,6 +142,15 @@ SKAT_2Kernel_Ortho_Optimal_Get_Params_each_r <- function(Z1.1, Z2.1, r.all) {
 }
 
 # Helper function to evaluate each Q-statistic and return p-values
+# Inputs:
+#   Q.all: Matrix of test statistics for each weight
+#   r.all: Vector of weights for kernels
+#   c1.all: Cumulants for method of moments for each weight
+# Outputs:
+#   Returns a list with:
+#     - pmin: Minimum p-values
+#     - pval: p-values for each weight
+#     - pmin.q: Q-values for minimum p-values
 SKAT_2Kernel_Ortho_Optimal_Each_Q <- function(Q.all, r.all, c1.all) {
   n.r <- length(r.all)
   n.q <- nrow(Q.all)
@@ -160,9 +196,10 @@ SKAT_2Kernel_Ortho_Optimal_Each_Q <- function(Q.all, r.all, c1.all) {
   return(out)
 }
 
-# Helper function to compute standard deviation for quadratic forms
+# Helper function to compute standard deviation for quadratic form MM
 sd_quad <- function(M) {
   sqrt(2 * sum(M * M))
 }
 
-tr <- function(X) sum(diag(X))
+# Helper function to compute trace of matrix M
+tr <- function(M) sum(diag(M))
