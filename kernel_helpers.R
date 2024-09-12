@@ -164,3 +164,5 @@ SKAT_2Kernel_Ortho_Optimal_Each_Q <- function(Q.all, r.all, c1.all) {
 sd_quad <- function(M) {
   sqrt(2 * sum(M * M))
 }
+
+tr <- function(X) sum(diag(X))
