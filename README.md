@@ -80,7 +80,7 @@ print(result$w)             # Optimal weight for kernel combination
 2. Source the script and run the perturbation method using your data:
 
 ```r
-source("kernelPCA_method.R")
+source("perturbation_method.R")
 result <- perturbation(w = seq(0, 1, by = 0.25), y = y_data, X = covariates, omics1 = omics1_data, omics2 = omics2_data, grm = relatedness_matrix)
 ```
 
