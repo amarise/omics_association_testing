@@ -12,9 +12,9 @@ The following R packages are required:
 
 Install the required packages using the command below:
 
-``` r
-install.packages(c("GENESIS", "SKAT", "CompQuadForm"))
-```
+    ``` r
+    install.packages(c("GENESIS", "SKAT", "CompQuadForm"))
+    ```
 
 ## File Structure
 
@@ -45,9 +45,10 @@ Make sure that the row order in each data file is consistent across all files, s
 
 ### Running Kernel PCA Analysis:
 
-1. Source the `kernelPCA_method.R` script in R:
+1. Source the `kernel_helpers.R` and `kernelPCA_method.R` scripts in R:
 
     ``` r
+    source("kernel_helpers.R")
     source("kernelPCA_method.R")
     ```
 
@@ -63,40 +64,45 @@ Make sure that the row order in each data file is consistent across all files, s
 
 ### Example Usage:
 
-``` r
-result <- kernelPCA(w = seq(0, 1, by = 0.25), y = y_data, X = covariates, omics1 = genotype_data, omics2 = methylation_data, grm = relatedness_matrix)
+    ``` r
+    result <- kernelPCA(w = seq(0, 1, by = 0.25), y = y_data, X = covariates, omics1 = genotype_data, omics2 = methylation_data, grm = relatedness_matrix)
 
-# View the results
-print(result$grid_results)  # View the grid of test statistics and p-values
-print(result$p_val)         # Overall p-value for the test
-print(result$w)             # Optimal weight for kernel combination
-```
+    # View the results
+    print(result$grid_results)  # View the grid of test statistics and p-values
+    print(result$p_val)         # Overall p-value for the test
+    print(result$w)             # Optimal weight for kernel combination
+    ```
 
 ## Perturbation Method for Association Testing
 
 ### Running Perturbation Method:
 
-1. Include the kernelPCA_method.R file in your project.
-2. Source the script and run the perturbation method using your data:
+1. Source the `kernel_helpers.R` and `perturbation_method.R` scripts in R:
 
-```r
-source("perturbation_method.R")
-result <- perturbation(w = seq(0, 1, by = 0.25), y = y_data, X = covariates, omics1 = omics1_data, omics2 = omics2_data, grm = relatedness_matrix)
-```
+    ``` r
+    source("kernel_helpers.R")
+    source("perturbation_method.R")
+    ```
+
+2. Modify the script to point to your data files, then run the perturbation analysis:
+
+    ```r
+    result <- perturbation(w = seq(0, 1, by = 0.25), y = y_data, X = covariates, omics1 = omics1_data, omics2 = omics2_data, grm = relatedness_matrix)
+    ```
 
 3. Review Results:
     - This method will provide test statistics, p-values, and an optimal weight (`w`) for combining kernels based on perturbations.
 
 ### Example Usage:
 
-```r
-result <- perturbation(w = seq(0, 1, by = 0.1), y = y_data, X = covariates, omics1 = genotype_data, omics2 = methylation_data, grm = relatedness_matrix)
+    ```r
+    result <- perturbation(w = seq(0, 1, by = 0.1), y = y_data, X = covariates, omics1 = genotype_data, omics2 = methylation_data, grm = relatedness_matrix)
 
-# View the results
-print(result$grid_results)  # View the test statistics and p-values for different weights
-print(result$p_val)         # Overall p-value for the test
-print(result$w)             # Optimal weight for kernel combination
-```
+    # View the results
+    print(result$grid_results)  # View the test statistics and p-values for different weights
+    print(result$p_val)         # Overall p-value for the test
+    print(result$w)             # Optimal weight for kernel combination
+    ```
 
 ## Custom Functions
 
